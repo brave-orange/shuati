@@ -488,7 +488,8 @@ class LeetCodeTrainer {
 
         // 显示结果
         document.getElementById('aiScore').textContent = score;
-        document.getElementById('aiFeedback').textContent = feedback;
+        // Markdown 渲染
+        document.getElementById('aiFeedback').innerHTML = marked.parse(feedback);
         document.getElementById('aiResult').classList.remove('hidden');
     }
 
