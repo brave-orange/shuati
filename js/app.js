@@ -318,7 +318,7 @@ class LeetCodeTrainer {
         
         modelSelect.innerHTML = models.map(m => 
             `<option value="${m.id}" ${m.id === this.aiConfig.getModel() ? 'selected' : ''}>
-                ${m.name}${m.recommended ? ' ✓' : ''}
+                ${m.name}
             </option>`
         ).join('');
     }

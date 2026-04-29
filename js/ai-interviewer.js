@@ -36,10 +36,10 @@ class AIConfigManager {
                 xiaomi: {
                     name: "小米 MiMo",
                     baseUrl: "https://token-plan-cn.xiaomimimo.com/v1",
-                    apiKey: "tp-cf7mrm70ppsc4b45o323ift7ua1jhbh3x3ul7lgd3xsil2wx",
+                    apiKey: "",
                     models: [
-                        { id: "mimo-v2.5-pro", name: "MiMo-V2.5-Pro (最强)", recommended: true },
-                        { id: "mimo-v2.5", name: "MiMo-V2.5", recommended: false }
+                        { id: "mimo-v2.5-pro", name: "MiMo-V2.5-Pro" },
+                        { id: "mimo-v2.5", name: "MiMo-V2.5" }
                     ]
                 }
             },
@@ -76,11 +76,11 @@ class AIConfigManager {
         if (apiKey) {
             this.config.providers[providerId].apiKey = apiKey;
         }
-        // 自动选择推荐模型
+        // 默认选择第一个模型
         const provider = this.config.providers[providerId];
-        const recommended = provider.models.find(m => m.recommended);
-        if (recommended) {
-            this.config.ai.model = recommended.id;
+        const firstModel = provider.models[0];
+        if (firstModel) {
+            this.config.ai.model = firstModel.id;
         }
         this.saveConfig();
     }
