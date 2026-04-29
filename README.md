@@ -12,63 +12,44 @@ AI 智能判题的算法练习平台，支持交互式面试模拟。
   - 直接评分：快速评审
 - **多供应商支持**：小米 MiMo、OpenAI、Claude、DeepSeek、自定义 API
 - **计时功能**：记录解题时间
-- **本地存储**：自动保存代码进度
+- **本地存储**：自动保存代码进度和 AI 配置
 
 ## 快速开始
+
+### GitHub Pages 部署
+
+直接访问 GitHub Pages 即可使用，无需本地部署。
 
 ### 本地运行
 
 ```bash
-# 1. 克隆项目
 git clone git@github.com:brave-orange/shuati.git
 cd shuati
-
-# 2. 配置 API Key
-cp config.example.json config.json
-# 编辑 config.json，填写你的 API Key
-
-# 3. 启动本地服务器
 python3 -m http.server 8080
-
-# 4. 打开浏览器
 open http://localhost:8080
-```
-
-### Docker 部署
-
-```bash
-docker compose up -d --build
-# 访问 http://localhost:8080
 ```
 
 ## 配置说明
 
-编辑 `config.json`：
+**首次使用请点击「⚙️ 设置」填写 API Key**，配置保存在浏览器 localStorage。
 
-```json
-{
-    "ai": {
-        "provider": "xiaomi",
-        "model": "mimo-v2.5-pro"
-    },
-    "providers": {
-        "xiaomi": {
-            "apiKey": "YOUR_API_KEY_HERE"
-        }
-    },
-    "interview": {
-        "style": "interactive"  // interactive | hint | direct
-    }
-}
-```
+支持的供应商：
 
-**面试风格说明：**
+| 供应商 | API 地址 | 模型 |
+|--------|---------|------|
+| 小米 MiMo | token-plan-cn.xiaomimimo.com | MiMo-V2.5-Pro、MiMo-V2.5 |
+| OpenAI | api.openai.com | GPT-4o、GPT-4 Turbo |
+| Claude | api.anthropic.com | Claude Sonnet 4 |
+| DeepSeek | api.deepseek.com | DeepSeek Chat |
+| 自定义 | 任意 OpenAI 兼容 API | 自定义模型 |
+
+**面试风格：**
 
 | 风格 | 特点 |
 |------|------|
-| `interactive` | 提出追问，引导思考 |
-| `hint` | 给思考方向，不给答案 |
-| `direct` | 直接评分，简短反馈 |
+| 交互追问 | 提出追问，引导思考 |
+| 引导提示 | 给思考方向，不给答案 |
+| 直接评分 | 简短评审 |
 
 ## AI 判题示例
 
@@ -81,7 +62,8 @@ docker compose up -d --build
 
 - 纯前端实现，无需后端
 - CodeMirror 代码编辑器
-- 小米 MiMo-V2.5-Pro（1T 参数，1M 上下文）
+- Markdown 渲染（marked.js）
+- localStorage 持久化
 
 ## 项目结构
 
@@ -93,8 +75,6 @@ leetcode-hot100/
 │   ├── app.js          # 主逻辑
 │   └── ai-interviewer.js  # AI 面试官
 ├── data/hot100.js      # 题库数据
-├── config.json         # 用户配置（不上传）
-├── config.example.json # 配置模板
 ├── Dockerfile
 ├── docker-compose.yml
 └── nginx.conf
