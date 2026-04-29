@@ -5,21 +5,14 @@ class AIConfigManager {
         this.loadConfig();
     }
 
-    async loadConfig() {
-        try {
-            // 从本地存储加载
-            const saved = localStorage.getItem('leetcode_ai_config');
-            if (saved) {
-                this.config = JSON.parse(saved);
-            } else {
-                // 加载默认配置
-                const response = await fetch('config.json');
-                this.config = await response.json();
-                this.saveConfig();
-            }
-        } catch (e) {
-            // 使用内置默认配置
+    loadConfig() {
+        // 从 localStorage 加载，没有则使用默认配置
+        const saved = localStorage.getItem('leetcode_ai_config');
+        if (saved) {
+            this.config = JSON.parse(saved);
+        } else {
             this.config = this.getDefaultConfig();
+            this.saveConfig();
         }
     }
 
@@ -39,7 +32,41 @@ class AIConfigManager {
                     apiKey: "",
                     models: [
                         { id: "mimo-v2.5-pro", name: "MiMo-V2.5-Pro" },
-                        { id: "mimo-v2.5", name: "MiMo-V2.5" }
+                        { id: "mimo-v2.5", name: "MiMo-V2.5" },
+                        { id: "mimo-v2-pro", name: "MiMo-V2-Pro" }
+                    ]
+                },
+                openai: {
+                    name: "OpenAI",
+                    baseUrl: "https://api.openai.com/v1",
+                    apiKey: "",
+                    models: [
+                        { id: "gpt-4o", name: "GPT-4o" },
+                        { id: "gpt-4-turbo", name: "GPT-4 Turbo" }
+                    ]
+                },
+                anthropic: {
+                    name: "Claude",
+                    baseUrl: "https://api.anthropic.com/v1",
+                    apiKey: "",
+                    models: [
+                        { id: "claude-sonnet-4", name: "Claude Sonnet 4" }
+                    ]
+                },
+                deepseek: {
+                    name: "DeepSeek",
+                    baseUrl: "https://api.deepseek.com/v1",
+                    apiKey: "",
+                    models: [
+                        { id: "deepseek-chat", name: "DeepSeek Chat" }
+                    ]
+                },
+                custom: {
+                    name: "自定义",
+                    baseUrl: "",
+                    apiKey: "",
+                    models: [
+                        { id: "custom-model", name: "自定义模型" }
                     ]
                 }
             },
