@@ -1,153 +1,104 @@
-# 🔥 LeetCode Hot100 刷题训练
+# LeetCode Hot100 刷题网站
 
-一个用于随机练习 LeetCode Hot100 题目的本地网站，支持 AI 判题和面试模式模拟。
+AI 智能判题的算法练习平台，支持交互式面试模拟。
 
 ## 功能特性
 
-- ✅ **随机刷题** - 从 Hot100 中随机抽取题目
-- ⏱️ **计时挑战** - 设置时间限制，模拟面试压力
-- 🤖 **AI 判题** - 使用 MiMo-V2.5-Pro 进行代码评审和评分
-- 💼 **面试模式** - 隐藏提示，真实模拟面试场景
-- 📊 **历史记录** - 本地保存训练记录
-- 🔄 **多语言支持** - JavaScript / Python / Java / C++ / Go
+- **21 道 Hot100 精选题**：高频面试题精选
+- **5 种语言**：JavaScript / Python / Java / C++ / Go
+- **AI 智能判题**：三种面试风格可选
+  - 引导提示：指出考点 + 思考方向（**不给答案**）
+  - 交互追问：提出关键问题，引导深入思考
+  - 直接评分：快速评审
+- **多供应商支持**：小米 MiMo、OpenAI、Claude、DeepSeek、自定义 API
+- **计时功能**：记录解题时间
+- **本地存储**：自动保存代码进度
 
-## 快速启动
+## 快速开始
 
-### 方式一：直接打开
-
-```bash
-# 进入项目目录
-cd ~/projects/leetcode-hot100
-
-# 用浏览器打开
-open index.html  # macOS
-# 或
-xdg-open index.html  # Linux
-```
-
-### 方式二：本地服务器
+### 本地运行
 
 ```bash
-# 使用 Python 启动简单服务器
-cd ~/projects/leetcode-hot100
+# 1. 克隆项目
+git clone git@github.com:brave-orange/shuati.git
+cd shuati
+
+# 2. 配置 API Key
+cp config.example.json config.json
+# 编辑 config.json，填写你的 API Key
+
+# 3. 启动本地服务器
 python3 -m http.server 8080
 
-# 然后访问 http://localhost:8080
+# 4. 打开浏览器
+open http://localhost:8080
 ```
 
-### 方式三：Docker 部署
+### Docker 部署
 
 ```bash
-# 构建并启动
-cd ~/projects/leetcode-hot100
-docker-compose up -d
-
+docker compose up -d --build
 # 访问 http://localhost:8080
 ```
 
-## AI 判题配置
+## 配置说明
 
-支持多种 AI 供应商，可在设置面板中选择：
+编辑 `config.json`：
 
-### 内置配置（可直接使用）
-
-- **小米 MiMo** - MiMo-V2.5-Pro (1T 参数，推荐)
-  - 已内置 API Key，开箱即用
-  - 支持交互式追问，模拟真实面试
-
-### 需配置 API Key
-
-- **OpenAI** - GPT-4o / GPT-4 Turbo
-- **Anthropic Claude** - Claude Sonnet 4
-- **DeepSeek** - DeepSeek Chat
-- **自定义 API** - 支持任何兼容 OpenAI 格式的 API
-
-### 面试风格
-
-- **交互式追问** (推荐) - AI 会分析题目考查重点，针对代码提出追问
-- **直接评分** - 直接给出评分结果
-- **引导提示** - 给出解题提示和改进建议
-
-### 评审维度（每项 20 分，总分 100）
-
-1. 正确性 - 代码是否正确解决问题
-2. 时间复杂度 - 算法效率
-3. 空间复杂度 - 内存使用优化
-4. 代码风格 - 命名规范、可读性、注释
-5. 边界处理 - 特殊情况处理
-
-### AI 追问示例
-
-```
-🎯 面试官追问：
-> 你为什么选择使用哈希表来解决这个问题？
-> 如果输入数据规模变为 10^8，你的代码性能会如何变化？
-> 有没有考虑过其他解法？比如双指针？
+```json
+{
+    "ai": {
+        "provider": "xiaomi",
+        "model": "mimo-v2.5-pro"
+    },
+    "providers": {
+        "xiaomi": {
+            "apiKey": "YOUR_API_KEY_HERE"
+        }
+    },
+    "interview": {
+        "style": "interactive"  // interactive | hint | direct
+    }
+}
 ```
 
-考生可以回答追问，AI 会根据回答调整评分并给出进一步反馈。
+**面试风格说明：**
 
-## 面试模式
+| 风格 | 特点 |
+|------|------|
+| `interactive` | 提出追问，引导思考 |
+| `hint` | 给思考方向，不给答案 |
+| `direct` | 直接评分，简短反馈 |
 
-开启面试模式后：
-- 🚫 隐藏题目提示
-- ⏱️ 强制计时（时间到自动结束）
-- 📝 模拟真实面试压力
+## AI 判题示例
+
+> **考点**：哈希 O(1) 查找、双指针边界条件  
+> **追问**：你为什么用哈希表？时间复杂度是多少？  
+> **评分**：75/100  
+> **建议**：考虑用双指针优化空间。
+
+## 技术栈
+
+- 纯前端实现，无需后端
+- CodeMirror 代码编辑器
+- 小米 MiMo-V2.5-Pro（1T 参数，1M 上下文）
 
 ## 项目结构
 
 ```
 leetcode-hot100/
 ├── index.html          # 主页面
-├── css/
-│   └── style.css       # 样式文件
+├── css/style.css       # 样式
 ├── js/
-│   └ app.js            # 应用逻辑
-├── data/
-│   └ hot100.js         # 题目数据（20道精选）
-├── Dockerfile          # Docker 配置
-├── docker-compose.yml  # Docker Compose
-├── nginx.conf          # Nginx 配置（含API代理）
-└── README.md           # 说明文档
+│   ├── app.js          # 主逻辑
+│   └── ai-interviewer.js  # AI 面试官
+├── data/hot100.js      # 题库数据
+├── config.json         # 用户配置（不上传）
+├── config.example.json # 配置模板
+├── Dockerfile
+├── docker-compose.yml
+└── nginx.conf
 ```
-
-## 扩展题目
-
-编辑 `data/hot100.js` 文件，添加更多题目：
-
-```javascript
-{
-    id: 题目编号,
-    title: "题目名称",
-    difficulty: "easy/medium/hard",
-    tags: ["标签1", "标签2"],
-    description: `题目描述`,
-    examples: [
-        { input: "输入示例", output: "输出示例" }
-    ],
-    hint: "解题提示",
-    templates: {
-        javascript: `// JavaScript 模板`,
-        python: `# Python 模板`,
-        java: `// Java 模板`,
-        cpp: `// C++ 模板`
-    }
-}
-```
-
-## 技术栈
-
-- **前端**: 纯 HTML/CSS/JavaScript（无框架依赖）
-- **编辑器**: CodeMirror 5（代码高亮和编辑）
-- **AI**: MiMo-V2.5-Pro（小米万亿参数模型）
-- **部署**: Docker + Nginx
-
-## 注意事项
-
-1. AI 判题需要网络连接
-2. 历史记录保存在浏览器 localStorage
-3. Docker 方式通过 Nginx 代理解决 API 跨域问题
-4. 题目数据为精选 20 道，可根据需要扩展
 
 ## License
 
