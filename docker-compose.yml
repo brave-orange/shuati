@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  leetcode-hot100:
+    build: .
+    container_name: leetcode-hot100
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    volumes:
+      # 可选：持久化历史记录（如果需要服务端存储）
+      - ./data:/usr/share/nginx/html/data
+
+networks:
+  default:
+    name: leetcode-network
